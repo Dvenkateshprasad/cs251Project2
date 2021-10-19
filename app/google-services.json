@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "995035197463",
+    "project_id": "covidselfcareapp-6490d",
+    "storage_bucket": "covidselfcareapp-6490d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995035197463:android:e67e5058d663421e336c52",
+        "android_client_info": {
+          "package_name": "com.example.covidselfcareapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "995035197463-gksm3f7lsbjktddb8abvqv9teqqfj7oq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwdFOfu3PzlBe76bacYQtNPaxL5nHJa6o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "995035197463-gksm3f7lsbjktddb8abvqv9teqqfj7oq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
