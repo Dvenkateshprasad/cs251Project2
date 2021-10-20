@@ -6,6 +6,7 @@ public class User {
     public String password;
     public String age;
     public String gender;
+    public boolean takenquestionnaire;
     public boolean ishealthy;
     public User(){
 
@@ -16,7 +17,8 @@ public class User {
         this.age = age;
         this.email = email;
         this.password = password;
-        this.ishealthy = Boolean.parseBoolean(null);
+        this.ishealthy = false;
+        this.takenquestionnaire = false;
 
     }
 }
