@@ -33,6 +33,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
     Spinner spinner;
     private FirebaseAuth mAuth;
     ProgressBar progressBar;
+    public Button registerBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,15 +48,105 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
         spinner = findViewById(R.id.gender);
         loginDirect = findViewById(R.id.loginDirect);
         mAuth=FirebaseAuth.getInstance();
+        registerBtn = (Button)findViewById(R.id.registerBtn);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.genders, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-        // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String username = edtxtusername.getText().toString().trim();
+                String age = edtxtage.getText().toString().trim();
+                String gender = spinner.getSelectedItem().toString().trim();
+                String password = edtxtpassword2.getText().toString().trim();
+                String email = edtxtemail.getText().toString().trim();
 
-        myRef.setValue("Hello, World!");
+                if(username.isEmpty()){
+                    edtxtusername.setError("please enter a username");
+                    edtxtusername.requestFocus();
+//            return;
+                }
+                if(age.isEmpty()){
+                    edtxtage.setError("please enter your age");
+                    edtxtage.requestFocus();
+//            return;
+                }
+                if(gender.equals("Select Gender")){
+                    errorText = (TextView)spinner.getSelectedView();
+                    errorText.setError("anything here, just to add the icon");
+                    spinner.requestFocus();
+//            return;
+                }
+                if(password.isEmpty()||password.length()<6){
+                    edtxtpassword2.setError("password should contain atleast six characters");
+                    edtxtpassword2.requestFocus();
+//            return;
+                }
+                if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                    edtxtemail.setError("please enter a valid email address");
+                    edtxtemail.requestFocus();
+//            return;
+                }
+                progressBar.setVisibility(View.VISIBLE);
+                mAuth.createUserWithEmailAndPassword(email,password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if(task.isSuccessful()){
+                                    User user = new User(username,age,gender,email,password);
+                                    FirebaseDatabase.getInstance().getReference("Users")
+                                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                            .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                Toast.makeText(Register.this,"user registered successfully",Toast.LENGTH_LONG).show();
+                                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+                                                reference.addValueEventListener(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        String namefromdb = snapshot.child(email).child("username").getValue(String.class);
+                                                        String genderfromdb = snapshot.child(email).child("gender").getValue(String.class);
+                                                        String agefromdb = snapshot.child(email).child("age").getValue(String.class);
+                                                        boolean ishealthyfromdb = snapshot.child(email).child("ishealthy").getValue(Boolean.class);
+                                                        boolean tqfromdb = snapshot.child(email).child("takenquestionnaire").getValue(Boolean.class);
+                                                        Intent intent = new Intent(getApplicationContext(),tabbed.class);
+                                                        intent.putExtra("name",namefromdb);
+                                                        intent.putExtra("gender",genderfromdb);
+                                                        intent.putExtra("age",agefromdb);
+                                                        intent.putExtra("ishealthy",ishealthyfromdb);
+                                                        intent.putExtra("takenquestionnaire",tqfromdb);
+                                                        progressBar.setVisibility(View.GONE);
+                                                        startActivity(intent);
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+
+
+                                            }
+                                            else{
+                                                Toast.makeText(Register.this,"user registration failed",Toast.LENGTH_LONG).show();
+                                                progressBar.setVisibility(View.GONE);
+
+                                            }
+                                        }
+                                    });
+                                }
+                                else{
+                                    Toast.makeText(Register.this,"user registration failed",Toast.LENGTH_LONG).show();
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            }
+                        });
+
+
+            }
+        });
         loginDirect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +155,8 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
             }
         });
     }
+
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -164,4 +257,6 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                 });
 
     }
+
+
 }
