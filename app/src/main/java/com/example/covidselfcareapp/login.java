@@ -61,17 +61,17 @@ public class login extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(login.this,"logged in successfully",Toast.LENGTH_LONG).show();
-                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance()
+                    .getCurrentUser().getUid());
                     reference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            String namefromdb = snapshot.child(username).child("username").getValue(String.class);
-                            String genderfromdb = snapshot.child(username).child("gender").getValue(String.class);
-                            String agefromdb = snapshot.child(username).child("age").getValue(String.class);
-                            boolean ishealthyfromdb = snapshot.child(username).child("ishealthy").getValue(Boolean.class);
-                            boolean tqfromdb = snapshot.child(username).child("takenquestionnaire").getValue(Boolean.class);
-                            Intent intent = new Intent(getApplicationContext(),tabbed.class);
+                            String namefromdb = snapshot.child("username").getValue(String.class);
+                            String genderfromdb = snapshot.child("gender").getValue(String.class);
+                            String agefromdb = snapshot.child("age").getValue(String.class);
+                            boolean ishealthyfromdb = snapshot.child("ishealthy").getValue(Boolean.class);
+                            boolean tqfromdb = snapshot.child("takenquestionnaire").getValue(Boolean.class);
+                            Intent intent = new Intent(login.this,tabbed.class);
                             intent.putExtra("name",namefromdb);
                             intent.putExtra("gender",genderfromdb);
                             intent.putExtra("age",agefromdb);
@@ -79,6 +79,9 @@ public class login extends AppCompatActivity {
                             intent.putExtra("takenquestionnaire",tqfromdb);
                             progressBar.setVisibility(View.GONE);
                             startActivity(intent);
+                            finish();
+                            Toast.makeText(login.this,"logged in successfully",Toast.LENGTH_LONG).show();
+
                         }
 
                         @Override
