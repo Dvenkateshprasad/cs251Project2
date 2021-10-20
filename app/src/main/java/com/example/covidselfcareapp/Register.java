@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,12 +29,14 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
     EditText edtxtusername,edtxtage,edtxtemail,edtxtpassword2;
     Spinner spinner;
     private FirebaseAuth mAuth;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        getSupportActionBar().hide();
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getSupportActionBar().hide();
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        progressBar = findViewById(R.id.progressBar);
         edtxtusername = findViewById(R.id.username);
         edtxtage = findViewById(R.id.age);
         edtxtemail = findViewById(R.id.email);
@@ -101,6 +104,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
             edtxtemail.requestFocus();
 //            return;
         }
+        progressBar.setVisibility(View.VISIBLE);
         mAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -114,16 +118,20 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
                                         Toast.makeText(Register.this,"user registered successfully",Toast.LENGTH_LONG).show();
+                                        progressBar.setVisibility(View.GONE);
 
                                     }
                                     else{
                                         Toast.makeText(Register.this,"user registration failed",Toast.LENGTH_LONG).show();
+                                        progressBar.setVisibility(View.GONE);
+
                                     }
                                 }
                             });
                         }
                         else{
                             Toast.makeText(Register.this,"user registration failed",Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 });
