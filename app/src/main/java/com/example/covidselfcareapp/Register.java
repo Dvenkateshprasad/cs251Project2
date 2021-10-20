@@ -102,33 +102,8 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
                                                 Toast.makeText(Register.this,"user registered successfully",Toast.LENGTH_LONG).show();
-                                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                                reference.addValueEventListener(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                        String namefromdb = snapshot.child("username").getValue(String.class);
-                                                        String genderfromdb = snapshot.child("gender").getValue(String.class);
-                                                        String agefromdb = snapshot.child("age").getValue(String.class);
-                                                        boolean ishealthyfromdb = snapshot.child("ishealthy").getValue(Boolean.class);
-                                                        boolean tqfromdb = snapshot.child("takenquestionnaire").getValue(Boolean.class);
-                                                        Intent intent = new Intent(Register.this,tabbed.class);
-                                                        intent.putExtra("name",namefromdb);
-                                                        intent.putExtra("gender",genderfromdb);
-                                                        intent.putExtra("age",agefromdb);
-                                                        intent.putExtra("ishealthy",ishealthyfromdb);
-                                                        intent.putExtra("takenquestionnaire",tqfromdb);
-                                                        System.out.println("not reachin the intent zone");
-                                                        progressBar.setVisibility(View.GONE);
-                                                        startActivity(intent);
-                                                    }
-
-                                                    @Override
-                                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                                    }
-                                                });
-
-
+                                                Intent intent = new Intent(Register.this,tabbed.class);
+                                                startActivity(intent);
                                             }
                                             else{
                                                 Toast.makeText(Register.this,"user registration failed",Toast.LENGTH_LONG).show();

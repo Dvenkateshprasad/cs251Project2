@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.covidselfcareapp.R;
+import com.example.covidselfcareapp.profilefragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -17,7 +18,7 @@ import com.example.covidselfcareapp.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1,R.string.tab_text_2};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -29,13 +30,33 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return PlaceholderFragment.newInstance(position + 1);
+//        return PlaceholderFragment.newInstance(position + 1);
+        Fragment fragment = null;
+        switch (position){
+            case 0:
+                fragment = new profilefragment();
+                break;
+            case 1:
+                fragment = new profilefragment();
+                break;
+
+        }
+        return  fragment;
     }
 
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return mContext.getResources().getString(TAB_TITLES[position]);
+        String s = null;
+        switch (position){
+            case 0:
+                s = "Profile";
+                break;
+            case 1:
+                s = "Covid Data";
+                break;
+        }
+        return s;
     }
 
     @Override

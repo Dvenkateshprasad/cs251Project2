@@ -4,34 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    android:backgroundTint="#F4EEEE"
     tools:context=".tabbed">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#2196F3"
         android:theme="@style/Theme.Covidselfcareapp.AppBarOverlay">
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="219dp"
             android:layout_height="wrap_content"
+            android:background="#FA4545"
+            android:backgroundTint="#2196F3"
+            android:fontFamily="sans-serif-smallcaps"
             android:gravity="center"
             android:minHeight="?actionBarSize"
             android:padding="@dimen/appbar_padding"
             android:text="@string/app_name"
-            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
+            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+            android:textColor="@android:color/holo_orange_light" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary" />
+            android:background="@android:color/darker_gray"
+            app:tabTextColor="#664CC6" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#FFFFFF"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
