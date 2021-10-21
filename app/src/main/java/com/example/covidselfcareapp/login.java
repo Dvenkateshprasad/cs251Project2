@@ -61,34 +61,10 @@ public class login extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance()
-                    .getCurrentUser().getUid());
-                    reference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            String namefromdb = snapshot.child("username").getValue(String.class);
-                            String genderfromdb = snapshot.child("gender").getValue(String.class);
-                            String agefromdb = snapshot.child("age").getValue(String.class);
-                            boolean ishealthyfromdb = snapshot.child("ishealthy").getValue(Boolean.class);
-                            boolean tqfromdb = snapshot.child("takenquestionnaire").getValue(Boolean.class);
-                            Intent intent = new Intent(login.this,tabbed.class);
-                            intent.putExtra("name",namefromdb);
-                            intent.putExtra("gender",genderfromdb);
-                            intent.putExtra("age",agefromdb);
-                            intent.putExtra("ishealthy",ishealthyfromdb);
-                            intent.putExtra("takenquestionnaire",tqfromdb);
-                            progressBar.setVisibility(View.GONE);
-                            startActivity(intent);
-                            finish();
-                            Toast.makeText(login.this,"logged in successfully",Toast.LENGTH_LONG).show();
 
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
+                    Toast.makeText(login.this,"logged in successfully",Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(login.this,tabbed.class);
+                                    startActivity(intent);
                     progressBar.setVisibility(View.GONE);
                 }
                 else{

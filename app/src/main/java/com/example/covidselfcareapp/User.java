@@ -6,8 +6,8 @@ public class User {
     public String password;
     public String age;
     public String gender;
-    public boolean takenquestionnaire;
-    public boolean ishealthy;
+    public static boolean takenquestionnaire;
+    public static boolean ishealthy;
     public User(){
 
     }

@@ -9,10 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Covidselfcareapp">
+        <activity android:name=".questionnaire"></activity>
         <activity
             android:name=".tabbed"
             android:label="@string/title_activity_tabbed"
-            android:theme="@style/Theme.Covidselfcareapp.NoActionBar"></activity>
+            android:theme="@style/Theme.Covidselfcareapp.NoActionBar" />
         <activity android:name=".login" />
         <activity android:name=".Register">
             <intent-filter>
